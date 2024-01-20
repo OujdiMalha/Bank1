@@ -1,9 +1,28 @@
-﻿@page "/"
+﻿
+@page "/"
+@inject ManagementAccount AccountManager
 
-<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<h3>Liste des Comptes Bancaires</h3>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@foreach (var compte in comptesBancaires)
+{
+    <div>
+        <p>Compte ID: @compte.CompteId</p>
+        <p>Numéro de Compte: @compte.NumeroCompte</p>
+        <p>Solde: @compte.Solde</p>
+        <p>Type de Compte: @compte.TypeCompte</p>
+        <hr />
+    </div>
+}
+
+@code {
+    private List<CompteBancaire> comptesBancaires;
+
+    protected override void OnInitialized()
+    {
+        // Chargez la liste des comptes bancaires au démarrage de la page
+        comptesBancaires = AccountManager.GetClientAccounts(1); // Remplacez 1 par l'ID du client réel
+    }
+}
